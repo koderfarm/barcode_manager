@@ -1,10 +1,12 @@
 package am.barcodemanager;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -115,7 +117,7 @@ public class AddRollsActivity extends AppCompatActivity implements View.OnClickL
     TextView tv_fetch_article, tv_fetch_qty;
     RelativeLayout rl_fetch_data;
     ProgressBar progressBar;
-
+    private DatabaseHelper db;
     BottomNavigationView bottomNavigationView;
 
     @Override
@@ -203,6 +205,7 @@ public class AddRollsActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
+
 
     private HostnameVerifier getHostnameVerifier() {
         return new HostnameVerifier() {
@@ -443,9 +446,12 @@ public class AddRollsActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                Intent intent = new Intent(AddRollsActivity.this, MainActivity.class);
+                progressBar.setVisibility(View.GONE);
+                txtBarcodeValue.setText("");
+                edit_weight.setText("");
+               /* Intent intent = new Intent(AddRollsActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(intent);
+                startActivity(intent);*/
             }
         });
         dialog.show();

@@ -10,10 +10,9 @@ public class RollInfo {
             ArticleNumber;
     int Status;
 
-    public RollInfo(String palletNumber, String RollNumber, int anInt) {
+    public RollInfo(String palletNumber, String RollNumber) {
         this.palletNumber = palletNumber;
         this.RollNumber = RollNumber;
-        this.Status = anInt;
     }
 
     public String getPalletNumber() {

@@ -1,30 +1,27 @@
 package am.barcodemanager.adapter;
 
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
 import am.barcodemanager.R;
-import am.barcodemanager.model.RollInfo;
+import am.barcodemanager.model.Pallet;
 
-
-public class rolldataAdapter extends ArrayAdapter<RollInfo> {
+public class PalletAdpater extends ArrayAdapter<Pallet> {
 
     //storing all the names in the list
-    private List<RollInfo> names;
+    private List<Pallet> names;
 
     //context object
     private Context context;
 
     //constructor
-    public rolldataAdapter(Context context, int resource, List<RollInfo> names) {
+    public PalletAdpater(Context context, int resource, List<Pallet> names) {
         super(context, resource, names);
         this.context = context;
         this.names = names;
@@ -37,16 +34,20 @@ public class rolldataAdapter extends ArrayAdapter<RollInfo> {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         //getting listview itmes
-        View listViewItem = inflater.inflate(R.layout.roll_info_list_text, null, true);
-        TextView textViewName = (TextView) listViewItem.findViewById(R.id.textViewName);
-        TextView tv_roll = (TextView) listViewItem.findViewById(R.id.tv_roll);
+        View listViewItem = inflater.inflate(R.layout.pallet_data_list_text, null, true);
+        TextView tv_lot_no = (TextView) listViewItem.findViewById(R.id.tv_lot_no);
+        TextView tv_roll_no = (TextView) listViewItem.findViewById(R.id.tv_roll_no);
+        TextView tv_qty_no = (TextView) listViewItem.findViewById(R.id.tv_qty_no);
+        TextView tv_article_no = (TextView) listViewItem.findViewById(R.id.tv_article_no);
 //        TextView imageViewStatus = (TextView) listViewItem.findViewById(R.id.imageViewStatus);
 
         //getting the current name
-        RollInfo name = names.get(position);
+        Pallet name = names.get(position);
         //setting the name to textview
-        textViewName.setText(name.getPalletNumber());
-        tv_roll.setText(name.getRollNumber());
+        tv_lot_no.setText(name.getLot_no());
+        tv_roll_no.setText(name.getRoll_no());
+        tv_qty_no.setText(name.getProd_qty());
+        tv_article_no.setText(name.getArticle_no());
 
 
         //if the synced status is 0 displaying

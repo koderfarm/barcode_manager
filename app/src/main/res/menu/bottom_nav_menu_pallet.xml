@@ -8,6 +8,12 @@
         android:icon="@drawable/ic_baseline_add_circle_outline_24"
         android:title="Pallet"
         app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/action_history"
+        android:enabled="true"
+        android:icon="@drawable/ic_baseline_history_24"
+        android:title="History"
+        app:showAsAction="ifRoom" />
 
     <!--<item
         android:id="@+id/action_favorites"

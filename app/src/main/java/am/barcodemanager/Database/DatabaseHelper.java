@@ -4,13 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     //Constants for Database name, table name, and column names
-    public static final String DB_NAME = "RollInformation";
-    public static final String TABLE_NAME = "RollData";
+    public static final String DB_NAME = "Barcode";
+    public static final String TABLE_NAME = "RollBarcode";
     public static final String COLUMN_ID = "_id";
     public static final String COLUMN_PALLET_NUMBER = "palletNumber";
     public static final String COLUMN_LOT_NUMBER = "lotNumber";
@@ -59,13 +60,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      * 0 means the name is synced with the server
      * 1 means the name is not synced with the server
      * */
-    public boolean addRollNumber(String palletNo, String rollNo,int Status) {
+    public boolean addRollNumber(String palletNo, String rollNo) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(COLUMN_PALLET_NUMBER, palletNo);
         contentValues.put(COLUMN_ROLL_NUMBER, rollNo);
-        contentValues.put(COLUMN_STATUS, Status);
+//        contentValues.put(COLUMN_STATUS, Status);
 
 
         db.insert(TABLE_NAME, null, contentValues);
@@ -87,13 +88,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return true;
     }
+
     /*
      * this method will give us all the name stored in sqlite
      * */
     public Cursor getRollInfo() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + TABLE_NAME+ " ORDER BY " + COLUMN_ID + " ASC;";
+        String sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COLUMN_ID + " ASC;";
 
         Cursor c = db.rawQuery(sql, null);
         c.moveToFirst();
@@ -117,5 +119,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_STATUS + " = 0;";
         Cursor c = db.rawQuery(sql, null);
         return c;
+    }
+
+    public boolean deleteCart(Context context) {
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        try {
+            db.execSQL("DELETE FROM " + DatabaseHelper.TABLE_NAME);
+            return true;
+
+        } catch (SQLiteException e) {
+            e.printStackTrace();
+        }
+        return true;
+
     }
 }

@@ -2,13 +2,21 @@
     <string name="app_name">Pallet Builder</string>
     <string name="pallet_no">Pallet Number</string>
     <string name="pallet_scan">Scan Pallet Number</string>
-    <string name="rolls_no">Rolls Number</string>
+    <string name="rolls_no">Barcode Number</string>
     <string name="weight">Weight</string>
     <string name="status">Status</string>
     <string name="ok">OK</string>
     <string name="article">Article</string>
     <string name="qty_mtr">Quantity Meters</string>
     <string name="palletcreated">Pallet Record Created</string>
+    <string name="palletdelete">Record deleted successfully</string>
     <string name="add_rolls">Add Rolls</string>
     <string name="error">Check Your Internet Connection</string>
+    <string name="total_rolls">Total Rolls</string>
+    <string name="total_meters">Total Meters</string>
+    <string name="rolls">Rolls</string>
+    <string name="meters">Meters</string>
+    <string name="pallet">Pallet</string>
+    <string name="date">Date</string>
+    <string name="transfered">Receive</string>
 </resources>
