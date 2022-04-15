@@ -1,12 +1,11 @@
 package am.barcodemanager;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
+
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.Editable;
@@ -48,7 +47,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -79,7 +77,6 @@ import am.barcodemanager.Database.DatabaseHelper;
 import am.barcodemanager.adapter.rolldataAdapter;
 import am.barcodemanager.model.RollInfo;
 import am.barcodemanager.network.NetworkStateChecker;
-import am.barcodemanager.singleton.VolleySingleton;
 
 public class AddRollsActivity extends AppCompatActivity implements View.OnClickListener {
     String PALLET, shift, weight;
