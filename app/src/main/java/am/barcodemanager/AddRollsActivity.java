@@ -210,7 +210,7 @@ public class AddRollsActivity extends AppCompatActivity implements View.OnClickL
             public boolean verify(String hostname, SSLSession session) {
                 //return true; // verify always returns true, which could cause insecure network traffic due to trusting TLS/SSL server certificates for wrong hostnames
                 HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify("artlive.artisticmilliners.com:8081", session);
+                return hv.verify("art.artisticmilliners.com:8081", session);
             }
         };
     }
@@ -290,7 +290,7 @@ public class AddRollsActivity extends AppCompatActivity implements View.OnClickL
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + barcode, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + barcode, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
@@ -342,7 +342,7 @@ public class AddRollsActivity extends AppCompatActivity implements View.OnClickL
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Saving ...");
         progressDialog.show();
-        url = "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + rollnum + "&pno=" + pno + "&usid=" + usid + "&aweight=" + weight + "&shift_code=" + shif;
+        url = "https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + rollnum + "&pno=" + pno + "&usid=" + usid + "&aweight=" + weight + "&shift_code=" + shif;
         Log.e("URL SAVE", url);
         HurlStack hurlStack = new HurlStack() {
             @Override

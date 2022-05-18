@@ -1,4 +1,3 @@
-
 package am.barcodemanager;
 
 import android.annotation.SuppressLint;
@@ -130,7 +129,7 @@ public class HistoryActivity extends AppCompatActivity {
             public boolean verify(String hostname, SSLSession session) {
                 //return true; // verify always returns true, which could cause insecure network traffic due to trusting TLS/SSL server certificates for wrong hostnames
                 HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify("artlive.artisticmilliners.com:8081", session);
+                return hv.verify("art.artisticmilliners.com:8081", session);
             }
         };
     }
@@ -212,36 +211,41 @@ public class HistoryActivity extends AppCompatActivity {
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp_history/?device_id=" + device_id, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp_history/?device_id=" + device_id, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
                 try {
                     JSONArray obj = response.getJSONArray("items");
-                    Log.e("obj", obj.toString());
-                    for (int i = 0; i < obj.length(); i++) {
-                        JSONObject jsonObject = obj.getJSONObject(i);
-                        String scan_date = jsonObject.getString("scan_date");
-                        String pallotno = jsonObject.getString("pallotno");
-                        String total_rolls = jsonObject.getString("total_rolls");
-                        String total_mtrs = jsonObject.getString("total_mtrs");
-                        String transfered = jsonObject.getString("transfered");
+                    Log.e("obj", ""+obj.length());
+                   if (obj.length() == 0){
+                       dialog.dismiss();
+                       customdialog("No Data Found", "Error");
+                   }else {
+                       for (int i = 0; i < obj.length(); i++) {
+                           JSONObject jsonObject = obj.getJSONObject(i);
+                           String scan_date = jsonObject.getString("scan_date");
+                           String pallotno = jsonObject.getString("pallotno");
+                           String total_rolls = jsonObject.getString("total_rolls");
+                           String total_mtrs = jsonObject.getString("total_mtrs");
+                           String transfered = jsonObject.getString("transfered");
                         /*tv_fetch_article.setText(art_fancy_name);
                         tv_fetch_qty.setText(prodqty);*/
-                        Log.e("pallotno", pallotno);
-                        Log.e("total_rolls", total_rolls);
-                        Log.e("scan_date", scan_date);
-                        Log.e("total_mtrs", total_mtrs);
-                        _history_model = new History(scan_date, pallotno, total_rolls, total_mtrs, transfered);
-                        historyList.add(_history_model);
-                        dialog.dismiss();
+                           Log.e("pallotno", pallotno);
+                           Log.e("total_rolls", total_rolls);
+                           Log.e("scan_date", scan_date);
+                           Log.e("total_mtrs", total_mtrs);
+                           _history_model = new History(scan_date, pallotno, total_rolls, total_mtrs, transfered);
+                           historyList.add(_history_model);
+                           dialog.dismiss();
 
 
-                        // check the other values like this so on..
+                           // check the other values like this so on..
 
-                    }
-                    historyAdapter = new HistoryAdapter(getApplicationContext(), R.layout.history_list_data_text, historyList);
-                    history_listview.setAdapter(historyAdapter);
+                       }
+                       historyAdapter = new HistoryAdapter(getApplicationContext(), R.layout.history_list_data_text, historyList);
+                       history_listview.setAdapter(historyAdapter);
+                   }
                     //String message = response.getString("message");
                     //Toast.makeText(getApplicationContext(), ""+status+message, Toast.LENGTH_SHORT).show();
 
@@ -265,6 +269,8 @@ public class HistoryActivity extends AppCompatActivity {
                 }
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
 
         requestQueue.add(jsonObjectRequest);
     }
@@ -288,15 +294,20 @@ public class HistoryActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public void customdialog() {
+    public void customdialog(String msg, String timeout) {
         final Dialog dialog = new Dialog(HistoryActivity.this);
-        dialog.setContentView(R.layout.customdialogbox);
-        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        // if button is clicked, close the custom dialog
+        dialog.setContentView(R.layout.error_dialogbox);
+        Button dialogButton = (Button) dialog.findViewById(R.id.buttonOk);
+        TextView error_heading = (TextView) dialog.findViewById(R.id.error_heading);
+        TextView dialogtext = (TextView) dialog.findViewById(R.id.text_error);
+        dialogtext.setText(msg);
+        error_heading.setText(timeout);
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
+                Intent intent = new Intent(HistoryActivity.this, PalletBarcodeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
         dialog.show();

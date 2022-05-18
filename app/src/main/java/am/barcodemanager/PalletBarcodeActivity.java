@@ -101,7 +101,7 @@ import am.barcodemanager.model.RollInfo;
 import am.barcodemanager.network.NetworkStateChecker;
 
 public class PalletBarcodeActivity extends AppCompatActivity implements View.OnClickListener {
-    EditText pallet_et, roll_et;
+    EditText pallet_et, roll_et,lot_no_et,roll_no_et;
     Button btn_save;
     ImageView btn_pallet;
     ListView rollNumberList;
@@ -178,7 +178,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
             public boolean verify(String hostname, SSLSession session) {
                 //return true; // verify always returns true, which could cause insecure network traffic due to trusting TLS/SSL server certificates for wrong hostnames
                 HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
-                return hv.verify("artlive.artisticmilliners.com:8081", session);
+                return hv.verify("art.artisticmilliners.com:8081", session);
             }
         };
     }
@@ -250,6 +250,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
         palletList = new ArrayList<>();
         rl_count = findViewById(R.id.rl_count);
         progressBar = findViewById(R.id.progressBar1);
+
 //        rl_row_history = findViewById(R.id.rl_row_history);
         btn_save = findViewById(R.id.btn_save);
         btn_pallet = findViewById(R.id.btn_pallet);
@@ -404,7 +405,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Saving ...");
         progressDialog.show();
-        url = "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + rollnum + "&pno=" + pno + "&usid=" + usid + "&device_id=" + device_id;
+        url = "https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + rollnum + "&pno=" + pno + "&usid=" + usid + "&device_id=" + device_id;
         Log.e("URL SAVE", url);
         HurlStack hurlStack = new HurlStack() {
             @Override
@@ -556,7 +557,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?pno=" + pallet_number, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?pno=" + pallet_number, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
@@ -617,6 +618,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
     }
@@ -638,7 +640,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp_count/?pno=" + pallet_number, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp_count/?pno=" + pallet_number, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
@@ -691,6 +693,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
     }
@@ -710,7 +713,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp_validate/?bcode=" + barcode, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp_validate/?bcode=" + barcode, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
@@ -767,6 +770,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
     }
@@ -786,7 +790,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp_device/?device_id=" + DEV_ID, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp_device/?device_id=" + DEV_ID, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
@@ -812,6 +816,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
                 }
             }
         });
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         requestQueue.add(jsonObjectRequest);
     }
@@ -831,7 +836,7 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
             }
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this, hurlStack);
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + barcode, null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?bcode=" + barcode, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Log.e("response", response.toString());
@@ -1033,8 +1038,8 @@ public class PalletBarcodeActivity extends AppCompatActivity implements View.OnC
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Saving ...");
         progressDialog.show();
-        //https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?rollno=9&pno=123&device_id=
-        url = "https://artlive.artisticmilliners.com:8081/ords/art/bscan/insp/?rollno=" + rollnum + "&pno=" + pno + "&device_id=" + device_id;
+        //https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?rollno=9&pno=123&device_id=
+        url = "https://art.artisticmilliners.com:8081/ords/art/bscan/insp/?rollno=" + rollnum + "&pno=" + pno + "&device_id=" + device_id;
         Log.e("URL SAVE", url);
         HurlStack hurlStack = new HurlStack() {
             @Override

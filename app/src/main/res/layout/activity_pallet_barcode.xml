@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+
         <include
             android:id="@+id/topheader"
             layout="@layout/customappbar" />
@@ -22,6 +23,7 @@
             android:layout_margin="7dp"
 
             android:orientation="horizontal">
+
 
             <EditText
                 android:visibility="visible"
@@ -373,17 +375,28 @@
         android:id="@+id/bottmvalue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/appbarColor"
+        >
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottom_navigation_pallet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
             android:background="@color/appbarColor"
             app:itemBackground="@color/appbarColor"
             app:itemIconTint="@android:color/white"
             app:itemTextColor="@android:color/white"
-            app:menu="@menu/bottom_nav_menu_pallet" />
+            app:menu="@menu/bottom_nav_menu_pallet"
+            />
+        <TextView
+           android:layout_below="@id/bottom_navigation_pallet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="v1.2"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            android:gravity="center"/>
     </RelativeLayout>
+
 </RelativeLayout>
